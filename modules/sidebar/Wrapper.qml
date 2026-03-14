@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import qs.components
 import qs.config
+import qs.utils
 import QtQuick
 
 Item {
@@ -10,13 +11,14 @@ Item {
     required property var visibilities
     required property var panels
     readonly property Props props: Props {}
+    readonly property bool disabled: Strings.testRegexList(Config.sidebar.excludedScreens, root.panels.screen.name)
 
     visible: width > 0
     implicitWidth: 0
 
     states: State {
         name: "visible"
-        when: root.visibilities.sidebar && Config.sidebar.enabled
+        when: !root.disabled && root.visibilities.sidebar && Config.sidebar.enabled
 
         PropertyChanges {
             root.implicitWidth: Config.sidebar.sizes.width
@@ -57,7 +59,7 @@ Item {
         anchors.bottomMargin: 0
 
         active: true
-        Component.onCompleted: active = Qt.binding(() => (root.visibilities.sidebar && Config.sidebar.enabled) || root.visible)
+        Component.onCompleted: active = Qt.binding(() => !root.disabled && ((root.visibilities.sidebar && Config.sidebar.enabled) || root.visible))
 
         sourceComponent: Content {
             implicitWidth: Config.sidebar.sizes.width - Appearance.padding.large * 2
