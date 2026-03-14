@@ -4,6 +4,7 @@ JsonObject {
     property bool recolourLogo: false
     property bool enableFprint: true
     property int maxFprintTries: 3
+    property list<string> excludedScreens: []
     property Sizes sizes: Sizes {}
 
     component Sizes: JsonObject {

@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import qs.components
 import qs.services
 import qs.config
+import qs.utils
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Effects
@@ -14,6 +15,7 @@ WlSessionLockSurface {
     required property Pam pam
 
     readonly property alias unlocking: unlockAnim.running
+    readonly property bool blurOnly: Strings.testRegexList(Config.lock.excludedScreens, root.screen.name)
 
     color: "transparent"
 
@@ -21,7 +23,10 @@ WlSessionLockSurface {
         target: root.lock
 
         function onUnlock(): void {
-            unlockAnim.start();
+            if (root.blurOnly)
+                root.lock.locked = false;
+            else
+                unlockAnim.start();
         }
     }
 
@@ -87,7 +92,7 @@ WlSessionLockSurface {
     ParallelAnimation {
         id: initAnim
 
-        running: true
+        running: !root.blurOnly
 
         Anim {
             target: background
@@ -164,7 +169,7 @@ WlSessionLockSurface {
 
         anchors.fill: parent
         captureSource: root.screen
-        opacity: 0
+        opacity: root.blurOnly ? 1 : 0
 
         layer.enabled: true
         layer.effect: MultiEffect {
@@ -178,6 +183,8 @@ WlSessionLockSurface {
 
     Item {
         id: lockContent
+
+        visible: !root.blurOnly
 
         readonly property int size: lockIcon.implicitHeight + Appearance.padding.large * 4
         readonly property int radius: size / 4 * Appearance.rounding.scale
