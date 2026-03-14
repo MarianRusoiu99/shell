@@ -167,6 +167,7 @@ Singleton {
                 scale: background.desktopClock.scale,
                 position: background.desktopClock.position,
                 invertColors: background.desktopClock.invertColors,
+                excludedScreens: background.desktopClock.excludedScreens,
                 background: {
                     enabled: background.desktopClock.background.enabled,
                     opacity: background.desktopClock.background.opacity,
@@ -427,19 +428,19 @@ Singleton {
                 provider: utilities.vpn.provider
             }
         };
-    }
+     }
 
-    function serializeSidebar(): var {
-        return {
-            enabled: sidebar.enabled,
-            dragThreshold: sidebar.dragThreshold,
-            sizes: {
-                width: sidebar.sizes.width
-            }
-        };
-    }
+     function serializeSidebar(): var {
+         return {
+             enabled: sidebar.enabled,
+             dragThreshold: sidebar.dragThreshold,
+             sizes: {
+                 width: sidebar.sizes.width
+             }
+         };
+     }
 
-    function serializeServices(): var {
+     function serializeServices(): var {
         return {
             weatherLocation: services.weatherLocation,
             useFahrenheit: services.useFahrenheit,
