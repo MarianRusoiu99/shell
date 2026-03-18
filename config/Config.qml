@@ -201,7 +201,8 @@ Singleton {
             popouts: {
                 activeWindow: bar.popouts.activeWindow,
                 tray: bar.popouts.tray,
-                statusIcons: bar.popouts.statusIcons
+                statusIcons: bar.popouts.statusIcons,
+                clock: bar.popouts.clock
             },
             workspaces: {
                 shown: bar.workspaces.shown,
@@ -241,7 +242,8 @@ Singleton {
                 windowPreviewSize: bar.sizes.windowPreviewSize,
                 trayMenuWidth: bar.sizes.trayMenuWidth,
                 batteryWidth: bar.sizes.batteryWidth,
-                networkWidth: bar.sizes.networkWidth
+                networkWidth: bar.sizes.networkWidth,
+                clockWidth: bar.sizes.clockWidth
             },
             entries: bar.entries,
             excludedScreens: bar.excludedScreens

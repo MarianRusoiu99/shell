@@ -45,6 +45,7 @@ Item {
     property bool popoutActiveWindow: Config.bar.popouts.activeWindow ?? true
     property bool popoutTray: Config.bar.popouts.tray ?? true
     property bool popoutStatusIcons: Config.bar.popouts.statusIcons ?? true
+    property bool popoutClock: Config.bar.popouts.clock ?? true
 
     anchors.fill: parent
 
@@ -88,6 +89,7 @@ Item {
         Config.bar.popouts.activeWindow = root.popoutActiveWindow;
         Config.bar.popouts.tray = root.popoutTray;
         Config.bar.popouts.statusIcons = root.popoutStatusIcons;
+        Config.bar.popouts.clock = root.popoutClock;
 
         const entries = [];
         for (let i = 0; i < entriesModel.count; i++) {
@@ -595,6 +597,15 @@ Item {
                                 checked: root.popoutStatusIcons
                                 onToggled: checked => {
                                     root.popoutStatusIcons = checked;
+                                    root.saveConfig();
+                                }
+                            }
+
+                            SwitchRow {
+                                label: qsTr("Clock")
+                                checked: root.popoutClock
+                                onToggled: checked => {
+                                    root.popoutClock = checked;
                                     root.saveConfig();
                                 }
                             }
