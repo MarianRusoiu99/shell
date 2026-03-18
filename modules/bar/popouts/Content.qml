@@ -108,6 +108,11 @@ Item {
         }
 
         Popout {
+            name: "clock"
+            sourceComponent: Clock {}
+        }
+
+        Popout {
             name: "audio"
             sourceComponent: Audio {
                 wrapper: root.wrapper
