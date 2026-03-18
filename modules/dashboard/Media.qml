@@ -17,9 +17,6 @@ Item {
 
     required property PersistentProperties visibilities
 
-    readonly property bool mediaVisualiserEnabled: Config.dashboard.mediaVisualiserEnabled ?? true
-    readonly property int mediaVisualiserSize: mediaVisualiserEnabled ? Config.dashboard.sizes.mediaVisualiserSize : 0
-
     property real playerProgress: {
         const active = Players.active;
         return active?.length ? active.position / active.length : 0;
@@ -38,8 +35,8 @@ Item {
         return `${mins}:${secs}`;
     }
 
-    implicitWidth: cover.implicitWidth + mediaVisualiserSize * 2 + details.implicitWidth + details.anchors.leftMargin + bongocat.implicitWidth + bongocat.anchors.leftMargin * 2 + Appearance.padding.large * 2
-    implicitHeight: Math.max(cover.implicitHeight + mediaVisualiserSize * 2, details.implicitHeight, bongocat.implicitHeight) + Appearance.padding.large * 2
+    implicitWidth: cover.implicitWidth + Config.dashboard.sizes.mediaVisualiserSize * 2 + details.implicitWidth + details.anchors.leftMargin + bongocat.implicitWidth + bongocat.anchors.leftMargin * 2 + Appearance.padding.large * 2
+    implicitHeight: Math.max(cover.implicitHeight + Config.dashboard.sizes.mediaVisualiserSize * 2, details.implicitHeight, bongocat.implicitHeight) + Appearance.padding.large * 2
 
     Behavior on playerProgress {
         Anim {
@@ -55,11 +52,8 @@ Item {
         onTriggered: Players.active?.positionChanged()
     }
 
-    Loader {
-        active: root.mediaVisualiserEnabled
-        sourceComponent: ServiceRef {
-            service: Audio.cava
-        }
+    ServiceRef {
+        service: Audio.cava
     }
 
     ServiceRef {
@@ -76,19 +70,18 @@ Item {
         property color colour: Colours.palette.m3primary
 
         anchors.fill: cover
-        anchors.margins: -root.mediaVisualiserSize
+        anchors.margins: -Config.dashboard.sizes.mediaVisualiserSize
 
         asynchronous: true
         preferredRendererType: Shape.CurveRenderer
-        visible: root.mediaVisualiserEnabled
-        data: root.mediaVisualiserEnabled ? visualiserBars.instances : []
+        data: visualiserBars.instances
     }
 
     Variants {
         id: visualiserBars
 
         model: Array.from({
-            length: root.mediaVisualiserEnabled ? Config.services.visualiserBars : 0
+            length: Config.services.visualiserBars
         }, (_, i) => i)
 
         ShapePath {
@@ -125,7 +118,7 @@ Item {
 
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: Appearance.padding.large + root.mediaVisualiserSize
+        anchors.leftMargin: Appearance.padding.large + Config.dashboard.sizes.mediaVisualiserSize
 
         implicitWidth: Config.dashboard.sizes.mediaCoverArtSize
         implicitHeight: Config.dashboard.sizes.mediaCoverArtSize

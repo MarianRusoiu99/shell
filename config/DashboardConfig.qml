@@ -6,7 +6,6 @@ JsonObject {
     property int mediaUpdateInterval: 500
     property int resourceUpdateInterval: 1000
     property int dragThreshold: 50
-    property bool mediaVisualiserEnabled: true
     property bool showDashboard: true
     property bool showMedia: true
     property bool showPerformance: true

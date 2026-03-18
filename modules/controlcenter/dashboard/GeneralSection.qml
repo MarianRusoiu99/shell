@@ -38,15 +38,6 @@ SectionContainer {
         }
     }
 
-    SwitchRow {
-        label: qsTr("Enable media visualiser")
-        checked: root.rootItem.mediaVisualiserEnabled
-        onToggled: checked => {
-            root.rootItem.mediaVisualiserEnabled = checked;
-            root.rootItem.saveConfig();
-        }
-    }
-
     RowLayout {
         Layout.fillWidth: true
         spacing: Appearance.spacing.normal

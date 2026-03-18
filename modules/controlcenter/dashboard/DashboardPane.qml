@@ -25,7 +25,6 @@ Item {
     property int mediaUpdateInterval: Config.dashboard.mediaUpdateInterval ?? 1000
     property int resourceUpdateInterval: Config.dashboard.resourceUpdateInterval ?? 1000
     property int dragThreshold: Config.dashboard.dragThreshold ?? 50
-    property bool mediaVisualiserEnabled: Config.dashboard.mediaVisualiserEnabled ?? true
 
     // Dashboard Tabs
     property bool showDashboard: Config.dashboard.showDashboard ?? true
@@ -49,7 +48,6 @@ Item {
         Config.dashboard.mediaUpdateInterval = root.mediaUpdateInterval;
         Config.dashboard.resourceUpdateInterval = root.resourceUpdateInterval;
         Config.dashboard.dragThreshold = root.dragThreshold;
-        Config.dashboard.mediaVisualiserEnabled = root.mediaVisualiserEnabled;
         Config.dashboard.showDashboard = root.showDashboard;
         Config.dashboard.showMedia = root.showMedia;
         Config.dashboard.showPerformance = root.showPerformance;
