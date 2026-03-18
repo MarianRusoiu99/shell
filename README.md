@@ -431,6 +431,7 @@ default, you must create it manually.
         "enabled": true,
         "dragThreshold": 50,
         "mediaUpdateInterval": 500,
+        "mediaVisualiserEnabled": true,
         "showOnHover": true
     },
     "launcher": {

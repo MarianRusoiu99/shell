@@ -263,6 +263,7 @@ Singleton {
             mediaUpdateInterval: dashboard.mediaUpdateInterval,
             resourceUpdateInterval: dashboard.resourceUpdateInterval,
             dragThreshold: dashboard.dragThreshold,
+            mediaVisualiserEnabled: dashboard.mediaVisualiserEnabled,
             performance: {
                 showBattery: dashboard.performance.showBattery,
                 showGpu: dashboard.performance.showGpu,
