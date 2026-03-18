@@ -92,6 +92,24 @@ SectionContainer {
         }
     }
 
+    SwitchRow {
+        label: qsTr("Use Fahrenheit for weather")
+        checked: Config.services.useFahrenheit
+        onToggled: checked => {
+            Config.services.useFahrenheit = checked;
+            Config.save();
+        }
+    }
+
+    SwitchRow {
+        label: qsTr("Use Fahrenheit for performance temperatures")
+        checked: Config.services.useFahrenheitPerformance
+        onToggled: checked => {
+            Config.services.useFahrenheitPerformance = checked;
+            Config.save();
+        }
+    }
+
     SliderInput {
         Layout.fillWidth: true
 
