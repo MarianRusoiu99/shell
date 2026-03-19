@@ -5,6 +5,7 @@ JsonObject {
     property bool enableFprint: true
     property int maxFprintTries: 3
     property list<string> excludedScreens: []
+    property bool hideNotifs: false
     property Sizes sizes: Sizes {}
 
     component Sizes: JsonObject {
