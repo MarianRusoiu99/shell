@@ -35,6 +35,11 @@ Singleton {
             saveTimer.restart();
     }
 
+    function clearAll(): void {
+        for (const notif of root.list.slice())
+            notif.close();
+    }
+
     Timer {
         id: saveTimer
 
@@ -107,18 +112,14 @@ Singleton {
     CustomShortcut {
         name: "clearNotifs"
         description: "Clear all notifications"
-        onPressed: {
-            for (const notif of root.list.slice())
-                notif.close();
-        }
+        onPressed: root.clearAll()
     }
 
     IpcHandler {
         target: "notifs"
 
         function clear(): void {
-            for (const notif of root.list.slice())
-                notif.close();
+            root.clearAll();
         }
 
         function isDndEnabled(): bool {

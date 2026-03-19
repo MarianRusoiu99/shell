@@ -71,7 +71,7 @@ StyledRect {
             if (Math.abs(root.x) < Config.notifs.sizes.width * Config.notifs.clearThreshold)
                 root.x = 0;
             else
-                root.modelData.popup = false;
+                root.modelData.close();
         }
         onPositionChanged: event => {
             if (pressed) {
