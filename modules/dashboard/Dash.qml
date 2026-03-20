@@ -19,7 +19,8 @@ GridLayout {
     Rect {
         Layout.column: 2
         Layout.columnSpan: 3
-        Layout.preferredWidth: user.implicitWidth
+        Layout.fillWidth: true
+        Layout.minimumWidth: user.implicitWidth
         Layout.preferredHeight: user.implicitHeight
 
         radius: Appearance.rounding.large
