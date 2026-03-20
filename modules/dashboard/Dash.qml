@@ -75,13 +75,15 @@ GridLayout {
     Rect {
         Layout.row: 1
         Layout.column: 4
-        Layout.preferredWidth: resources.implicitWidth
+        Layout.preferredWidth: notifications.implicitWidth
         Layout.fillHeight: true
 
         radius: Appearance.rounding.normal
 
-        Resources {
-            id: resources
+        Notifications {
+            id: notifications
+
+            visibilities: root.visibilities
         }
     }
 

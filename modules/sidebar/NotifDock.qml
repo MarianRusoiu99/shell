@@ -16,12 +16,16 @@ Item {
 
     required property Props props
     required property var visibilities
+    property bool clearPopupsOnInit: true
     readonly property int notifCount: Notifs.list.reduce((acc, n) => n.closed ? acc : acc + 1, 0)
 
     anchors.fill: parent
     anchors.margins: Appearance.padding.normal
 
-    Component.onCompleted: Notifs.list.forEach(n => n.popup = false)
+    Component.onCompleted: {
+        if (clearPopupsOnInit)
+            Notifs.list.forEach(n => n.popup = false);
+    }
 
     Item {
         id: title
