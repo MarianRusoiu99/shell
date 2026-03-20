@@ -17,5 +17,6 @@ Item {
 
         props: root.props
         visibilities: root.visibilities
+        clearPopupsOnInit: false
     }
 }
