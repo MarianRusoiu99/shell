@@ -15,9 +15,8 @@ Item {
         reloadableId: "lockNotifs"
     }
 
-    QtObject {
+    DrawerVisibilities {
         id: dummyVisibilities
-        property bool sidebar: false
     }
 
     Sidebar.NotifDock {
