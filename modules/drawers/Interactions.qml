@@ -40,8 +40,7 @@ CustomMouseArea {
     }
 
     function inTopPanel(panel: Item, x: real, y: real): bool {
-        const panelY = Math.max(Config.border.minThickness, Config.border.thickness + panel.height);
-        return y >= panelY - Config.border.rounding && y <= panelY + panel.y + Config.border.rounding && withinPanelWidth(panel, x, y);
+        return y >= -Config.border.rounding && y <= Math.max(Config.border.minThickness, panel.height) + Config.border.rounding && withinPanelWidth(panel, x, y);
     }
 
     function inBottomPanel(panel: Item, x: real, y: real, isCorner = false): bool {

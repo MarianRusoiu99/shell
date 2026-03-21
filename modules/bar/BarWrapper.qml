@@ -33,8 +33,8 @@ Item {
         (content.item as Bar)?.handleWheel(y, angleDelta);
     }
 
-    visible: width > Config.border.thickness
-    implicitWidth: Config.border.thickness
+    visible: width > Config.border.minThickness
+    implicitWidth: disabled ? Config.border.minThickness : Config.border.thickness
 
     states: State {
         name: "visible"
