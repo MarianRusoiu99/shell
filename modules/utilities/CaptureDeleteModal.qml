@@ -18,7 +18,7 @@ Loader {
     asynchronous: true
     anchors.fill: parent
 
-    opacity: root.props.recordingConfirmDelete ? 1 : 0
+    opacity: root.props.captureConfirmDelete ? 1 : 0
     active: opacity > 0
 
     sourceComponent: MouseArea {
@@ -26,10 +26,10 @@ Loader {
 
         property string path
 
-        Component.onCompleted: path = root.props.recordingConfirmDelete
+        Component.onCompleted: path = root.props.captureConfirmDelete
 
         hoverEnabled: true
-        onClicked: root.props.recordingConfirmDelete = ""
+        onClicked: root.props.captureConfirmDelete = ""
 
         Item {
             anchors.fill: parent
@@ -134,7 +134,7 @@ Loader {
             color: Colours.palette.m3surfaceContainerHigh
 
             scale: 0
-            Component.onCompleted: scale = Qt.binding(() => root.props.recordingConfirmDelete ? 1 : 0)
+            Component.onCompleted: scale = Qt.binding(() => root.props.captureConfirmDelete ? 1 : 0)
 
             width: Math.min(parent.width - Appearance.padding.large * 2, implicitWidth)
             implicitWidth: deleteConfirmationLayout.implicitWidth + Appearance.padding.large * 3
@@ -159,13 +159,13 @@ Loader {
                 spacing: Appearance.spacing.normal
 
                 StyledText {
-                    text: qsTr("Delete recording?")
+                    text: qsTr("Delete capture?")
                     font.pointSize: Appearance.font.size.large
                 }
 
                 StyledText {
                     Layout.fillWidth: true
-                    text: qsTr("Recording '%1' will be permanently deleted.").arg(deleteConfirmation.path)
+                    text: qsTr("'%1' will be permanently deleted.").arg(deleteConfirmation.path.split('/').pop())
                     color: Colours.palette.m3onSurfaceVariant
                     font.pointSize: Appearance.font.size.small
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -179,15 +179,15 @@ Loader {
                     TextButton {
                         text: qsTr("Cancel")
                         type: TextButton.Text
-                        onClicked: root.props.recordingConfirmDelete = ""
+                        onClicked: root.props.captureConfirmDelete = ""
                     }
 
                     TextButton {
                         text: qsTr("Delete")
                         type: TextButton.Text
                         onClicked: {
-                            CUtils.deleteFile(Qt.resolvedUrl(root.props.recordingConfirmDelete));
-                            root.props.recordingConfirmDelete = "";
+                            CUtils.deleteFile(Qt.resolvedUrl(root.props.captureConfirmDelete));
+                            root.props.captureConfirmDelete = "";
                         }
                     }
                 }
