@@ -10,6 +10,7 @@ Item {
         reloadableId: "dashboardNotifs"
     }
 
+    anchors.fill: parent
     implicitWidth: Config.dashboard.sizes.notificationsWidth
 
     Sidebar.NotifDock {

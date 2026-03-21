@@ -35,7 +35,7 @@ Item {
         anchors.right: parent.right
         anchors.margins: Appearance.padding.small
 
-        implicitHeight: Math.max(count.implicitHeight, titleText.implicitHeight)
+        implicitHeight: Math.max(count.implicitHeight, titleText.implicitHeight, clearBtnTitle.implicitHeight)
 
         StyledText {
             id: count
@@ -60,13 +60,55 @@ Item {
             }
         }
 
+        Loader {
+            id: clearBtnTitle
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+
+            scale: root.notifCount > 0 ? 1 : 0.5
+            opacity: root.notifCount > 0 ? 1 : 0
+            active: opacity > 0
+
+            sourceComponent: IconButton {
+                id: clearBtn
+
+                icon: "clear_all"
+                radius: Appearance.rounding.normal
+                padding: Appearance.padding.normal
+                font.pointSize: Math.round(Appearance.font.size.large * 1.2)
+                onClicked: clearTimer.start()
+
+                Elevation {
+                    anchors.fill: parent
+                    radius: parent.radius
+                    z: -1
+                    level: clearBtn.stateLayer.containsMouse ? 4 : 3
+                }
+            }
+
+            Behavior on scale {
+                Anim {
+                    duration: Appearance.anim.durations.expressiveFastSpatial
+                    easing.bezierCurve: Appearance.anim.curves.expressiveFastSpatial
+                }
+            }
+
+            Behavior on opacity {
+                Anim {
+                    duration: Appearance.anim.durations.expressiveFastSpatial
+                }
+            }
+        }
+
         StyledText {
             id: titleText
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: count.right
-            anchors.right: parent.right
+            anchors.right: clearBtnTitle.left
             anchors.leftMargin: Appearance.spacing.small
+            anchors.rightMargin: clearBtnTitle.active ? Appearance.spacing.small : 0
 
             text: root.notifCount > 0 ? qsTr("notification%1").arg(root.notifCount === 1 ? "" : "s") : qsTr("Notifications")
             color: Colours.palette.m3outline
@@ -169,43 +211,5 @@ Item {
         }
     }
 
-    Loader {
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.margins: Appearance.padding.normal
-
-        scale: root.notifCount > 0 ? 1 : 0.5
-        opacity: root.notifCount > 0 ? 1 : 0
-        active: opacity > 0
-
-        sourceComponent: IconButton {
-            id: clearBtn
-
-            icon: "clear_all"
-            radius: Appearance.rounding.normal
-            padding: Appearance.padding.normal
-            font.pointSize: Math.round(Appearance.font.size.large * 1.2)
-            onClicked: clearTimer.start()
-
-            Elevation {
-                anchors.fill: parent
-                radius: parent.radius
-                z: -1
-                level: clearBtn.stateLayer.containsMouse ? 4 : 3
-            }
-        }
-
-        Behavior on scale {
-            Anim {
-                duration: Appearance.anim.durations.expressiveFastSpatial
-                easing.bezierCurve: Appearance.anim.curves.expressiveFastSpatial
-            }
-        }
-
-        Behavior on opacity {
-            Anim {
-                duration: Appearance.anim.durations.expressiveFastSpatial
-            }
-        }
-    }
 }
+

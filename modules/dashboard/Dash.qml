@@ -18,7 +18,7 @@ GridLayout {
 
     Rect {
         Layout.column: 2
-        Layout.columnSpan: 3
+        Layout.columnSpan: 4
         Layout.fillWidth: true
         Layout.minimumWidth: user.implicitWidth
         Layout.preferredHeight: user.implicitHeight
@@ -76,6 +76,7 @@ GridLayout {
     Rect {
         Layout.row: 1
         Layout.column: 4
+        Layout.columnSpan: 3
         Layout.preferredWidth: notifications.implicitWidth
         Layout.fillHeight: true
 
@@ -90,7 +91,7 @@ GridLayout {
 
     Rect {
         Layout.row: 0
-        Layout.column: 5
+        Layout.column: 7
         Layout.rowSpan: 2
         Layout.preferredWidth: media.implicitWidth
         Layout.fillHeight: true
