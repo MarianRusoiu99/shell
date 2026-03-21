@@ -21,13 +21,7 @@ Item {
         anchors.fill: parent
         spacing: Appearance.spacing.normal
 
-        Record {
-            props: root.props
-            visibilities: root.visibilities
-            z: 1
-        }
-
-        Screenshot {
+        Capture {
             props: root.props
             visibilities: root.visibilities
             z: 1
@@ -39,11 +33,7 @@ Item {
         }
     }
 
-    RecordingDeleteModal {
-        props: root.props
-    }
-
-    ScreenshotDeleteModal {
+    CaptureDeleteModal {
         props: root.props
     }
 }

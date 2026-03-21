@@ -13,13 +13,18 @@ Item {
     required property Item popouts
 
     readonly property PersistentProperties props: PersistentProperties {
-        property bool recordingListExpanded: false
-        property string recordingConfirmDelete
+        // Unified capture mode: "video" or "screenshot"
+        property string captureMode: "video"
+
+        // Video recording props
         property string recordingMode
 
-        property bool screenshotListExpanded: false
-        property string screenshotConfirmDelete
+        // Screenshot props
         property string screenshotMode
+
+        // Shared history props
+        property bool historyExpanded: false
+        property string captureConfirmDelete
 
         reloadableId: "utilities"
     }

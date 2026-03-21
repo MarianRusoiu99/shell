@@ -8,40 +8,52 @@ import QtQuick
 Singleton {
     id: root
 
-    readonly property string screenshotsDir: `${Paths.pictures}/Screenshots`
+    readonly property string screenshotsDir: Paths.recsdir
     readonly property string timestampFormat: "yyyyMMdd_HHmmss"
 
-    function screenshotFullscreen(savePath = ""): void {
+    function nextPath(): string {
         const timestamp = Qt.formatDateTime(new Date(), timestampFormat);
-        const filename = `screenshot_${timestamp}.png`;
-        const path = savePath || `${screenshotsDir}/${filename}`;
+        return `${screenshotsDir}/screenshot_${timestamp}.png`;
+    }
+
+    function screenshotFullscreen(savePath = ""): void {
+        const path = savePath || nextPath();
 
         ensureDirExists(screenshotsDir);
-        execScreenshot(["-f", path]);
+        Quickshell.execDetached(["grim", path]);
     }
 
     function screenshotRegion(savePath = ""): void {
-        const timestamp = Qt.formatDateTime(new Date(), timestampFormat);
-        const filename = `screenshot_${timestamp}.png`;
-        const path = savePath || `${screenshotsDir}/${filename}`;
+        const path = savePath || nextPath();
 
         ensureDirExists(screenshotsDir);
-        execScreenshot(["-r", path]);
+        Quickshell.execDetached(["sh", "-c", `grim -g "$(slurp)" "${path}"`]);
+    }
+
+    function screenshotFullscreenDraw(): void {
+        const path = nextPath();
+
+        ensureDirExists(screenshotsDir);
+        Quickshell.execDetached(["sh", "-c", `grim "${path}" && swappy -f "${path}"`]);
+    }
+
+    function screenshotRegionDraw(): void {
+        const path = nextPath();
+
+        ensureDirExists(screenshotsDir);
+        Quickshell.execDetached(["sh", "-c", `grim -g "$(slurp)" "${path}" && swappy -f "${path}"`]);
     }
 
     function screenshotFullscreenClip(): void {
-        execScreenshot(["-fc"]);
+        Quickshell.execDetached(["sh", "-c", "grim - | wl-copy --type image/png"]);
     }
 
     function screenshotRegionClip(): void {
-        execScreenshot(["-rc"]);
+        // For region to clipboard, we need to use slurp first to get the region
+        Quickshell.execDetached(["sh", "-c", "slurp | grim -g - - | wl-copy --type image/png"]);
     }
 
     function ensureDirExists(dir: string): void {
         Quickshell.execDetached(["mkdir", "-p", dir]);
-    }
-
-    function execScreenshot(args: list<string>): void {
-        Quickshell.execDetached(["sh", "-c", `grim ${args.join(" ")}`]);
     }
 }
