@@ -92,7 +92,7 @@ Singleton {
         if (!stream)
             return qsTr("Unknown");
         // Try application name first, then description, then name
-        return stream.applicationName || stream.description || stream.name || qsTr("Unknown Application");
+        return stream.properties["application.name"] || stream.description || stream.name || qsTr("Unknown Application");
     }
 
     onSinkChanged: {
@@ -125,8 +125,6 @@ Singleton {
     }
 
     Connections {
-        target: Pipewire.nodes
-
         function onValuesChanged(): void {
             const newSinks = [];
             const newSources = [];
@@ -147,6 +145,8 @@ Singleton {
             root.sources = newSources;
             root.streams = newStreams;
         }
+
+        target: Pipewire.nodes
     }
 
     PwObjectTracker {

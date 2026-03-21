@@ -1,6 +1,5 @@
 pragma ComponentBehavior: Bound
 
-import qs.components
 import qs.components.containers
 import qs.services
 import qs.config
@@ -10,6 +9,7 @@ import Quickshell.Wayland
 import QtQuick
 
 Loader {
+    asynchronous: true
     active: Config.background.enabled
 
     sourceComponent: Variants {
@@ -40,6 +40,8 @@ Loader {
                 Loader {
                     id: wallpaper
 
+                    asynchronous: true
+
                     anchors.fill: parent
                     active: Config.background.wallpaperEnabled
 
@@ -57,6 +59,9 @@ Loader {
                 id: clockLoader
                 active: Config.background.desktopClock.enabled && !Strings.testRegexList(Config.background.desktopClock.excludedScreens, win.modelData.name)
 
+                asynchronous: true
+                active: Config.background.desktopClock.enabled
+
                 anchors.margins: Appearance.padding.large * 2
                 anchors.leftMargin: Appearance.padding.large * 2 + Config.bar.sizes.innerWidth + Math.max(Appearance.padding.smaller, Config.border.thickness)
 
@@ -64,6 +69,7 @@ Loader {
                 states: [
                     State {
                         name: "top-left"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.top: parent.top
@@ -72,6 +78,7 @@ Loader {
                     },
                     State {
                         name: "top-center"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.top: parent.top
@@ -80,6 +87,7 @@ Loader {
                     },
                     State {
                         name: "top-right"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.top: parent.top
@@ -88,6 +96,7 @@ Loader {
                     },
                     State {
                         name: "middle-left"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.verticalCenter: parent.verticalCenter
@@ -96,6 +105,7 @@ Loader {
                     },
                     State {
                         name: "middle-center"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.verticalCenter: parent.verticalCenter
@@ -104,6 +114,7 @@ Loader {
                     },
                     State {
                         name: "middle-right"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.verticalCenter: parent.verticalCenter
@@ -112,6 +123,7 @@ Loader {
                     },
                     State {
                         name: "bottom-left"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.bottom: parent.bottom
@@ -120,6 +132,7 @@ Loader {
                     },
                     State {
                         name: "bottom-center"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.bottom: parent.bottom
@@ -128,6 +141,7 @@ Loader {
                     },
                     State {
                         name: "bottom-right"
+
                         AnchorChanges {
                             target: clockLoader
                             anchors.bottom: parent.bottom

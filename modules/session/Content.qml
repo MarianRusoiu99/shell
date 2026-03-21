@@ -10,7 +10,7 @@ import QtQuick
 Column {
     id: root
 
-    required property PersistentProperties visibilities
+    required property DrawerVisibilities visibilities
 
     padding: Appearance.padding.large
     spacing: Appearance.spacing.large
@@ -26,12 +26,12 @@ Column {
         Component.onCompleted: forceActiveFocus()
 
         Connections {
-            target: root.visibilities
-
             function onLauncherChanged(): void {
                 if (!root.visibilities.launcher)
                     logout.forceActiveFocus();
             }
+
+            target: root.visibilities
         }
     }
 
@@ -115,12 +115,12 @@ Column {
         }
 
         StateLayer {
-            radius: parent.radius
-            color: button.activeFocus ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
-
             function onClicked(): void {
                 Quickshell.execDetached(button.command);
             }
+
+            radius: parent.radius
+            color: button.activeFocus ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
         }
 
         MaterialIcon {

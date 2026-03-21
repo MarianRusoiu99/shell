@@ -20,14 +20,14 @@ WlSessionLockSurface {
     color: "transparent"
 
     Connections {
-        target: root.lock
-
         function onUnlock(): void {
             if (root.blurOnly)
                 root.lock.locked = false;
             else
                 unlockAnim.start();
         }
+
+        target: root.lock
     }
 
     SequentialAnimation {

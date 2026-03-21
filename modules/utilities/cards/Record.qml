@@ -11,7 +11,7 @@ StyledRect {
     id: root
 
     required property var props
-    required property var visibilities
+    required property DrawerVisibilities visibilities
 
     Layout.fillWidth: true
     implicitHeight: layout.implicitHeight + layout.anchors.margins * 2
@@ -111,6 +111,7 @@ StyledRect {
 
             property bool running: Recorder.running
 
+            asynchronous: true
             Layout.fillWidth: true
             Layout.preferredHeight: implicitHeight
             sourceComponent: running ? recordingControls : recordingList

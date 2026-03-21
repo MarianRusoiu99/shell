@@ -8,7 +8,7 @@ import QtQuick
 Item {
     id: root
 
-    required property var visibilities
+    required property DrawerVisibilities visibilities
     required property var panels
     readonly property Props props: Props {}
     readonly property bool disabled: Strings.testRegexList(Config.sidebar.excludedScreens, root.panels.screen.name)

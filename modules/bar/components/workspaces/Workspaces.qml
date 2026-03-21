@@ -13,7 +13,7 @@ StyledClippingRect {
 
     required property ShellScreen screen
 
-    readonly property bool onSpecial: (Config.bar.workspaces.perMonitorWorkspaces ? Hypr.monitorFor(screen) : Hypr.focusedMonitor)?.lastIpcObject?.specialWorkspace?.name !== ""
+    readonly property bool onSpecial: (Config.bar.workspaces.perMonitorWorkspaces ? Hypr.monitorFor(screen) : Hypr.focusedMonitor)?.lastIpcObject.specialWorkspace?.name !== ""
     readonly property int activeWsId: Config.bar.workspaces.perMonitorWorkspaces ? (Hypr.monitorFor(screen).activeWorkspace?.id ?? 1) : Hypr.activeWsId
 
     readonly property var occupied: {
@@ -45,6 +45,7 @@ StyledClippingRect {
         }
 
         Loader {
+            asynchronous: true
             active: Config.bar.workspaces.occupiedBg
 
             anchors.fill: parent
@@ -77,6 +78,7 @@ StyledClippingRect {
         }
 
         Loader {
+            asynchronous: true
             anchors.horizontalCenter: parent.horizontalCenter
             active: Config.bar.workspaces.activeIndicator
 
@@ -90,7 +92,7 @@ StyledClippingRect {
         MouseArea {
             anchors.fill: layout
             onClicked: event => {
-                const ws = layout.childAt(event.x, event.y).ws;
+                const ws = (layout.childAt(event.x, event.y) as Workspace)?.ws;
                 if (Hypr.activeWsId !== ws)
                     Hypr.dispatch(`workspace ${ws}`);
                 else
@@ -109,6 +111,8 @@ StyledClippingRect {
 
     Loader {
         id: specialWs
+
+        asynchronous: true
 
         anchors.fill: parent
         anchors.margins: Appearance.padding.small

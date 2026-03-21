@@ -4,7 +4,6 @@ import ".."
 import "../components"
 import qs.components
 import qs.components.controls
-import qs.components.containers
 import qs.services
 import qs.config
 import qs.utils
@@ -222,9 +221,6 @@ DeviceList {
                     }
 
                     StateLayer {
-                        color: device.connected ? Colours.palette.m3onPrimaryContainer : Colours.palette.m3onSurface
-                        disabled: device.loading
-
                         function onClicked(): void {
                             if (device.loading)
                                 return;
@@ -239,6 +235,9 @@ DeviceList {
                                 }
                             }
                         }
+
+                        color: device.connected ? Colours.palette.m3onPrimaryContainer : Colours.palette.m3onSurface
+                        disabled: device.loading
                     }
 
                     MaterialIcon {

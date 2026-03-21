@@ -1,10 +1,6 @@
 pragma ComponentBehavior: Bound
 
 import ".."
-import qs.components
-import qs.components.controls
-import qs.components.effects
-import qs.components.containers
 import qs.config
 import QtQuick
 import QtQuick.Layouts
@@ -36,6 +32,7 @@ Item {
             id: headerLoader
 
             Layout.fillWidth: true
+            asynchronous: true
             sourceComponent: root.headerComponent
             visible: root.headerComponent !== null
         }
@@ -44,6 +41,7 @@ Item {
             id: topContentLoader
 
             Layout.fillWidth: true
+            asynchronous: true
             sourceComponent: root.topContent
             visible: root.topContent !== null
         }
@@ -55,6 +53,7 @@ Item {
                 required property Component modelData
 
                 Layout.fillWidth: true
+                asynchronous: true
                 sourceComponent: modelData
             }
         }
@@ -63,6 +62,7 @@ Item {
             id: bottomContentLoader
 
             Layout.fillWidth: true
+            asynchronous: true
             sourceComponent: root.bottomContent
             visible: root.bottomContent !== null
         }

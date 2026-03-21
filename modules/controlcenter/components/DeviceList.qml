@@ -2,11 +2,9 @@ pragma ComponentBehavior: Bound
 
 import ".."
 import qs.components
-import qs.components.controls
 import qs.components.containers
 import qs.services
 import qs.config
-import Quickshell
 import QtQuick
 import QtQuick.Layouts
 
@@ -32,6 +30,7 @@ ColumnLayout {
         id: headerLoader
 
         Layout.fillWidth: true
+        asynchronous: true
         sourceComponent: root.headerComponent
         visible: root.headerComponent !== null && root.showHeader
     }
@@ -50,6 +49,7 @@ ColumnLayout {
         }
 
         Loader {
+            asynchronous: true
             sourceComponent: root.titleSuffix
             visible: root.titleSuffix !== null
         }

@@ -9,12 +9,11 @@ import Quickshell
 import Quickshell.Bluetooth
 import QtQuick
 import QtQuick.Layouts
-import "../../controlcenter/network"
 
 ColumnLayout {
     id: root
 
-    required property Item wrapper
+    required property PopoutState popouts
 
     spacing: Appearance.spacing.small
 
@@ -117,12 +116,12 @@ ColumnLayout {
                 }
 
                 StateLayer {
-                    color: device.modelData.state === BluetoothDeviceState.Connected ? Colours.palette.m3onPrimary : Colours.palette.m3onSurface
-                    disabled: device.loading
-
                     function onClicked(): void {
                         device.modelData.connected = !device.modelData.connected;
                     }
+
+                    color: device.modelData.state === BluetoothDeviceState.Connected ? Colours.palette.m3onPrimary : Colours.palette.m3onSurface
+                    disabled: device.loading
                 }
 
                 MaterialIcon {
@@ -142,17 +141,18 @@ ColumnLayout {
             }
 
             Loader {
+                asynchronous: true
                 active: device.modelData.bonded
                 sourceComponent: Item {
                     implicitWidth: connectBtn.implicitWidth
                     implicitHeight: connectBtn.implicitHeight
 
                     StateLayer {
-                        radius: Appearance.rounding.full
-
                         function onClicked(): void {
                             device.modelData.forget();
                         }
+
+                        radius: Appearance.rounding.full
                     }
 
                     MaterialIcon {
@@ -173,7 +173,7 @@ ColumnLayout {
         text: qsTr("Open settings")
         icon: "settings"
 
-        onClicked: root.wrapper.detach("bluetooth")
+        onClicked: root.popouts.detachRequested("bluetooth")
     }
 
     component Toggle: RowLayout {

@@ -3,12 +3,8 @@ pragma ComponentBehavior: Bound
 import ".."
 import "../components"
 import "."
-import qs.components
 import qs.components.controls
 import qs.components.containers
-import qs.config
-import Quickshell.Widgets
-import Quickshell.Bluetooth
 import QtQuick
 
 SplitPaneWithDetails {
@@ -53,6 +49,7 @@ SplitPaneWithDetails {
     rightSettingsComponent: Component {
         StyledFlickable {
             id: settingsFlickable
+
             flickableDirection: Flickable.VerticalFlick
             contentHeight: settingsInner.height
 

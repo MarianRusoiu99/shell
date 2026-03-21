@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import ".."
 import qs.components
-import qs.components.effects
 import qs.services
 import qs.config
 import QtQuick
@@ -33,6 +32,7 @@ StyledRect {
 
     RowLayout {
         id: row
+
         anchors.fill: parent
         anchors.margins: Appearance.padding.large
         spacing: Appearance.spacing.normal
@@ -45,6 +45,7 @@ StyledRect {
 
         SplitButton {
             id: splitButton
+
             enabled: root.enabled
             type: SplitButton.Filled
 

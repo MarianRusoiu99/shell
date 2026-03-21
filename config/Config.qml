@@ -204,6 +204,8 @@ Singleton {
                 showLockStatus: bar.status.showLockStatus
             },
             clock: {
+                background: bar.clock.background,
+                showDate: bar.clock.showDate,
                 showIcon: bar.clock.showIcon
             },
             sizes: {
@@ -374,13 +376,15 @@ Singleton {
             maxVolume: services.maxVolume,
             smartScheme: services.smartScheme,
             defaultPlayer: services.defaultPlayer,
-            playerAliases: services.playerAliases
+            playerAliases: services.playerAliases,
+            showLyrics: services.showLyrics
         };
     }
 
     function serializePaths(): var {
         return {
             wallpaperDir: paths.wallpaperDir,
+            lyricsDir: paths.lyricsDir,
             sessionGif: paths.sessionGif,
             mediaGif: paths.mediaGif
         };

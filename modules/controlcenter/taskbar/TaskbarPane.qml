@@ -9,7 +9,6 @@ import qs.components.containers
 import qs.services
 import qs.config
 import qs.utils
-import Quickshell
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
@@ -22,6 +21,8 @@ Item {
     property bool activeWindowCompact: Config.bar.activeWindow.compact ?? false
     property bool activeWindowInverted: Config.bar.activeWindow.inverted ?? false
     property bool clockShowIcon: Config.bar.clock.showIcon ?? true
+    property bool clockBackground: Config.bar.clock.background ?? false
+    property bool clockShowDate: Config.bar.clock.showDate ?? false
     property bool persistent: Config.bar.persistent ?? true
     property bool showOnHover: Config.bar.showOnHover ?? true
     property int dragThreshold: Config.bar.dragThreshold ?? 20
@@ -52,24 +53,11 @@ Item {
     property list<string> monitorNames: Hypr.monitorNames()
     property list<string> excludedScreens: Config.bar.excludedScreens ?? []
 
-    anchors.fill: parent
-
-    Component.onCompleted: {
-        if (Config.bar.entries) {
-            entriesModel.clear();
-            for (let i = 0; i < Config.bar.entries.length; i++) {
-                const entry = Config.bar.entries[i];
-                entriesModel.append({
-                    id: entry.id,
-                    enabled: entry.enabled !== false
-                });
-            }
-        }
-    }
-
     function saveConfig(entryIndex, entryEnabled) {
         Config.bar.activeWindow.compact = root.activeWindowCompact;
         Config.bar.activeWindow.inverted = root.activeWindowInverted;
+        Config.bar.clock.background = root.clockBackground;
+        Config.bar.clock.showDate = root.clockShowDate;
         Config.bar.clock.showIcon = root.clockShowIcon;
         Config.bar.persistent = root.persistent;
         Config.bar.showOnHover = root.showOnHover;
@@ -116,12 +104,28 @@ Item {
         Config.save();
     }
 
+    anchors.fill: parent
+
+    Component.onCompleted: {
+        if (Config.bar.entries) {
+            entriesModel.clear();
+            for (let i = 0; i < Config.bar.entries.length; i++) {
+                const entry = Config.bar.entries[i];
+                entriesModel.append({
+                    id: entry.id,
+                    enabled: entry.enabled !== false
+                });
+            }
+        }
+    }
+
     ListModel {
         id: entriesModel
     }
 
     ClippingRectangle {
         id: taskbarClippingRect
+
         anchors.fill: parent
         anchors.margins: Appearance.padding.normal
         anchors.leftMargin: 0
@@ -138,12 +142,14 @@ Item {
             anchors.leftMargin: Appearance.padding.large
             anchors.rightMargin: Appearance.padding.large
 
+            asynchronous: true
             sourceComponent: taskbarContentComponent
         }
     }
 
     InnerBorder {
         id: taskbarBorder
+
         leftThickness: 0
         rightThickness: Appearance.padding.normal
     }
@@ -153,6 +159,7 @@ Item {
 
         StyledFlickable {
             id: sidebarFlickable
+
             flickableDirection: Flickable.VerticalFlick
             contentHeight: sidebarLayout.height
 
@@ -162,6 +169,7 @@ Item {
 
             ColumnLayout {
                 id: sidebarLayout
+
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
@@ -261,11 +269,13 @@ Item {
 
                 RowLayout {
                     id: mainRowLayout
+
                     Layout.fillWidth: true
                     spacing: Appearance.spacing.normal
 
                     ColumnLayout {
                         id: leftColumnLayout
+
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignTop
                         spacing: Appearance.spacing.normal
@@ -291,6 +301,7 @@ Item {
 
                                 RowLayout {
                                     id: workspacesShownRow
+
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.verticalCenter: parent.verticalCenter
@@ -326,6 +337,7 @@ Item {
 
                                 RowLayout {
                                     id: workspacesActiveIndicatorRow
+
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.verticalCenter: parent.verticalCenter
@@ -359,6 +371,7 @@ Item {
 
                                 RowLayout {
                                     id: workspacesOccupiedBgRow
+
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.verticalCenter: parent.verticalCenter
@@ -392,6 +405,7 @@ Item {
 
                                 RowLayout {
                                     id: workspacesShowWindowsRow
+
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.verticalCenter: parent.verticalCenter
@@ -425,6 +439,7 @@ Item {
 
                                 RowLayout {
                                     id: workspacesMaxWindowIconsRow
+
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.verticalCenter: parent.verticalCenter
@@ -460,6 +475,7 @@ Item {
 
                                 RowLayout {
                                     id: workspacesPerMonitorRow
+
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.verticalCenter: parent.verticalCenter
@@ -526,6 +542,7 @@ Item {
 
                     ColumnLayout {
                         id: middleColumnLayout
+
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignTop
                         spacing: Appearance.spacing.normal
@@ -537,6 +554,24 @@ Item {
                             StyledText {
                                 text: qsTr("Clock")
                                 font.pointSize: Appearance.font.size.normal
+                            }
+
+                            SwitchRow {
+                                label: qsTr("Background")
+                                checked: root.clockBackground
+                                onToggled: checked => {
+                                    root.clockBackground = checked;
+                                    root.saveConfig();
+                                }
+                            }
+
+                            SwitchRow {
+                                label: qsTr("Show date")
+                                checked: root.clockShowDate
+                                onToggled: checked => {
+                                    root.clockShowDate = checked;
+                                    root.saveConfig();
+                                }
                             }
 
                             SwitchRow {
@@ -633,6 +668,7 @@ Item {
 
                     ColumnLayout {
                         id: rightColumnLayout
+
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignTop
                         spacing: Appearance.spacing.normal

@@ -1,4 +1,4 @@
-import ".."
+import qs.components
 import qs.services
 import qs.config
 import QtQuick.Layouts
@@ -49,11 +49,11 @@ StyledRect {
             implicitHeight: cancelText.implicitHeight + Appearance.padding.normal * 2
 
             StateLayer {
-                disabled: !root.dialog.selectionValid
-
                 function onClicked(): void {
                     root.dialog.accepted(root.folder.currentItem.modelData.path);
                 }
+
+                disabled: !root.dialog.selectionValid
             }
 
             StyledText {
