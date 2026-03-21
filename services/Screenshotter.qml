@@ -20,7 +20,7 @@ Singleton {
         const path = savePath || nextPath();
 
         ensureDirExists(screenshotsDir);
-        Quickshell.execDetached(["grim", path]);
+        Quickshell.execDetached(["sh", "-c", `grim "${path}"`]);
     }
 
     function screenshotRegion(savePath = ""): void {
@@ -28,29 +28,6 @@ Singleton {
 
         ensureDirExists(screenshotsDir);
         Quickshell.execDetached(["sh", "-c", `grim -g "$(slurp)" "${path}"`]);
-    }
-
-    function screenshotFullscreenDraw(): void {
-        const path = nextPath();
-
-        ensureDirExists(screenshotsDir);
-        Quickshell.execDetached(["sh", "-c", `grim "${path}" && swappy -f "${path}"`]);
-    }
-
-    function screenshotRegionDraw(): void {
-        const path = nextPath();
-
-        ensureDirExists(screenshotsDir);
-        Quickshell.execDetached(["sh", "-c", `grim -g "$(slurp)" "${path}" && swappy -f "${path}"`]);
-    }
-
-    function screenshotFullscreenClip(): void {
-        Quickshell.execDetached(["sh", "-c", "grim - | wl-copy --type image/png"]);
-    }
-
-    function screenshotRegionClip(): void {
-        // For region to clipboard, we need to use slurp first to get the region
-        Quickshell.execDetached(["sh", "-c", "slurp | grim -g - - | wl-copy --type image/png"]);
     }
 
     function ensureDirExists(dir: string): void {

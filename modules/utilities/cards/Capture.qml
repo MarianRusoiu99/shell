@@ -28,79 +28,90 @@ StyledRect {
         anchors.margins: Appearance.padding.large
         spacing: Appearance.spacing.normal
 
-        RowLayout {
-            spacing: Appearance.spacing.normal
-            z: 1
+        StyledRect {
+            Layout.fillWidth: true
+            implicitHeight: modeToggleLayout.implicitHeight + Appearance.padding.small * 2
+            radius: Appearance.rounding.full
+            color: Colours.layer(Colours.palette.m3surfaceContainerHighest, 1)
 
-            // Mode toggle (Video / Screenshot)
-            StyledRect {
-                implicitWidth: modeToggleLayout.implicitWidth + Appearance.padding.small * 2
-                implicitHeight: modeToggleLayout.implicitHeight + Appearance.padding.smaller * 2
+            RowLayout {
+                id: modeToggleLayout
 
-                radius: Appearance.rounding.full
-                color: Colours.layer(Colours.palette.m3surfaceContainerHighest, 1)
+                anchors.fill: parent
+                anchors.margins: Appearance.padding.small
+                spacing: Appearance.spacing.small
 
-                RowLayout {
-                    id: modeToggleLayout
+                StyledRect {
+                    Layout.fillWidth: true
+                    implicitHeight: modeVideoLabel.implicitHeight + Appearance.padding.normal * 2
+                    radius: Appearance.rounding.full
+                    color: root.isVideoMode ? Colours.palette.m3secondary : "transparent"
 
-                    anchors.centerIn: parent
-                    spacing: 0
+                    RowLayout {
+                        anchors.centerIn: parent
+                        spacing: Appearance.spacing.small
 
-                    StyledRect {
-                        id: videoTab
-
-                        implicitWidth: videoText.implicitWidth + Appearance.padding.normal * 2
-                        implicitHeight: videoText.implicitHeight + Appearance.padding.smaller * 2
-
-                        radius: Appearance.rounding.full
-                        color: root.isVideoMode ? Colours.palette.m3secondary : "transparent"
-
-                        StyledText {
-                            id: videoText
-
-                            anchors.centerIn: parent
-                            text: qsTr("Video")
+                        MaterialIcon {
+                            text: "videocam"
                             color: root.isVideoMode ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
-                            font.pointSize: Appearance.font.size.small
+                            font.pointSize: Appearance.font.size.large
                         }
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: root.props.captureMode = "video"
+                        StyledText {
+                            id: modeVideoLabel
+
+                            text: qsTr("Video")
+                            color: root.isVideoMode ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
+                            font.pointSize: Appearance.font.size.normal
                         }
                     }
 
-                    StyledRect {
-                        id: screenshotTab
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: root.props.captureMode = "video"
+                    }
+                }
 
-                        implicitWidth: screenshotText.implicitWidth + Appearance.padding.normal * 2
-                        implicitHeight: screenshotText.implicitHeight + Appearance.padding.smaller * 2
+                StyledRect {
+                    Layout.fillWidth: true
+                    implicitHeight: modeScreenshotLabel.implicitHeight + Appearance.padding.normal * 2
+                    radius: Appearance.rounding.full
+                    color: !root.isVideoMode ? Colours.palette.m3tertiary : "transparent"
 
-                        radius: Appearance.rounding.full
-                        color: !root.isVideoMode ? Colours.palette.m3tertiary : "transparent"
+                    RowLayout {
+                        anchors.centerIn: parent
+                        spacing: Appearance.spacing.small
+
+                        MaterialIcon {
+                            text: "screenshot"
+                            color: !root.isVideoMode ? Colours.palette.m3onTertiary : Colours.palette.m3onSurfaceVariant
+                            font.pointSize: Appearance.font.size.large
+                        }
 
                         StyledText {
-                            id: screenshotText
+                            id: modeScreenshotLabel
 
-                            anchors.centerIn: parent
                             text: qsTr("Screenshot")
                             color: !root.isVideoMode ? Colours.palette.m3onTertiary : Colours.palette.m3onSurfaceVariant
-                            font.pointSize: Appearance.font.size.small
+                            font.pointSize: Appearance.font.size.normal
                         }
+                    }
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: root.props.captureMode = "screenshot"
-                        }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: root.props.captureMode = "screenshot"
                     }
                 }
             }
+        }
+
+        RowLayout {
+            spacing: Appearance.spacing.normal
 
             Item {
                 Layout.fillWidth: true
             }
 
-            // Video mode: SplitButton for recording options
             SplitButton {
                 visible: root.isVideoMode
                 disabled: Recorder.running
@@ -135,7 +146,6 @@ StyledRect {
                 ]
             }
 
-            // Screenshot mode: SplitButton for screenshot options
             SplitButton {
                 visible: !root.isVideoMode
                 active: menuItems.find(m => root.props.screenshotMode === m.icon + m.text) ?? menuItems[0]
@@ -153,30 +163,6 @@ StyledRect {
                         text: qsTr("Screenshot region")
                         activeText: qsTr("Region")
                         onClicked: Screenshotter.screenshotRegion()
-                    },
-                    MenuItem {
-                        icon: "draw"
-                        text: qsTr("Screenshot fullscreen and draw")
-                        activeText: qsTr("Full + Draw")
-                        onClicked: Screenshotter.screenshotFullscreenDraw()
-                    },
-                    MenuItem {
-                        icon: "ink_selection"
-                        text: qsTr("Screenshot region and draw")
-                        activeText: qsTr("Region + Draw")
-                        onClicked: Screenshotter.screenshotRegionDraw()
-                    },
-                    MenuItem {
-                        icon: "content_copy"
-                        text: qsTr("Screenshot fullscreen to clipboard")
-                        activeText: qsTr("Full -> Clip")
-                        onClicked: Screenshotter.screenshotFullscreenClip()
-                    },
-                    MenuItem {
-                        icon: "content_cut"
-                        text: qsTr("Screenshot region to clipboard")
-                        activeText: qsTr("Region -> Clip")
-                        onClicked: Screenshotter.screenshotRegionClip()
                     }
                 ]
             }
@@ -190,7 +176,7 @@ StyledRect {
             active: visible
 
             Layout.fillWidth: true
-            Layout.preferredHeight: active ? item?.implicitHeight ?? 0 : 0
+            Layout.preferredHeight: active && item ? item.implicitHeight : 0
 
             sourceComponent: RowLayout {
                 spacing: Appearance.spacing.normal
