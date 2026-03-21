@@ -1,4 +1,5 @@
 import "../sidebar" as Sidebar
+import qs.components
 import qs.config
 import QtQuick
 
@@ -13,9 +14,8 @@ Item {
         reloadableId: "lockNotifs"
     }
 
-    QtObject {
+    DrawerVisibilities {
         id: dummyVisibilities
-        property bool sidebar: false
     }
 
     Sidebar.NotifDock {
