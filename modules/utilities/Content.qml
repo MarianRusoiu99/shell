@@ -21,9 +21,13 @@ Item {
         anchors.fill: parent
         spacing: Appearance.spacing.normal
 
-        IdleInhibit {}
-
         Record {
+            props: root.props
+            visibilities: root.visibilities
+            z: 1
+        }
+
+        Screenshot {
             props: root.props
             visibilities: root.visibilities
             z: 1
@@ -36,6 +40,10 @@ Item {
     }
 
     RecordingDeleteModal {
+        props: root.props
+    }
+
+    ScreenshotDeleteModal {
         props: root.props
     }
 }

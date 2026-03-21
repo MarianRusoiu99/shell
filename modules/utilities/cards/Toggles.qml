@@ -63,6 +63,118 @@ StyledRect {
             visible: root.needExtraRow
             rowModel: root.needExtraRow ? root.quickToggles.slice(root.splitIndex) : []
         }
+
+        // Idle Inhibit toggle at the bottom
+        IdleInhibitToggle {}
+    }
+
+    component IdleInhibitToggle: StyledRect {
+        Layout.fillWidth: true
+        Layout.topMargin: Appearance.spacing.small
+
+        implicitHeight: idleInhibitLayout.implicitHeight + Appearance.padding.normal * 2
+
+        radius: Appearance.rounding.normal
+        color: IdleInhibitor.enabled ? Colours.palette.m3secondaryContainer : Colours.layer(Colours.palette.m3surfaceContainerHighest, 2)
+
+        property bool hovered: false
+
+        RowLayout {
+            id: idleInhibitLayout
+
+            anchors.fill: parent
+            anchors.margins: Appearance.padding.normal
+            spacing: Appearance.spacing.small
+
+            StyledRect {
+                implicitWidth: implicitHeight
+                implicitHeight: idleIcon.implicitHeight + Appearance.padding.smaller * 2
+
+                radius: Appearance.rounding.full
+                color: IdleInhibitor.enabled ? Colours.palette.m3secondary : "transparent"
+
+                MaterialIcon {
+                    id: idleIcon
+
+                    anchors.centerIn: parent
+                    text: "coffee"
+                    color: IdleInhibitor.enabled ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
+                    font.pointSize: Appearance.font.size.normal
+                }
+            }
+
+            StyledText {
+                Layout.fillWidth: true
+                text: IdleInhibitor.enabled ? qsTr("Keep Awake") : qsTr("Keep Awake")
+                color: IdleInhibitor.enabled ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurfaceVariant
+                font.pointSize: Appearance.font.size.small
+            }
+
+            StyledRect {
+                implicitWidth: 40
+                implicitHeight: 24
+                radius: Appearance.rounding.full
+                color: IdleInhibitor.enabled ? Colours.palette.m3secondary : Colours.palette.m3outline
+
+                StyledRect {
+                    id: toggleKnob
+
+                    width: 18
+                    height: 18
+                    radius: Appearance.rounding.full
+                    color: IdleInhibitor.enabled ? Colours.palette.m3onSecondary : Colours.palette.m3surface
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    x: IdleInhibitor.enabled ? parent.width - width - 3 : 3
+
+                    Behavior on x {
+                        Anim {}
+                    }
+
+                    Behavior on color {
+                        Anim {}
+                    }
+                }
+            }
+        }
+
+        // Tooltip showing active since time
+        StyledRect {
+            id: activeTooltip
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.top
+            anchors.bottomMargin: Appearance.spacing.small
+
+            width: activeTooltipText.implicitWidth + Appearance.padding.normal * 2
+            height: activeTooltipText.implicitHeight + Appearance.padding.small * 2
+
+            radius: Appearance.rounding.small
+            color: Colours.palette.m3inverseSurface
+            visible: root.hovered && IdleInhibitor.enabled
+
+            StyledText {
+                id: activeTooltipText
+
+                anchors.centerIn: parent
+                text: qsTr("Active since %1").arg(Qt.formatTime(IdleInhibitor.enabledSince, Config.services.useTwelveHourClock ? "hh:mm a" : "hh:mm"))
+                color: Colours.palette.m3inverseOnSurface
+                font.pointSize: Appearance.font.size.small
+            }
+
+            Behavior on visible {
+                Anim {}
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: IdleInhibitor.enabled = !IdleInhibitor.enabled
+            onEntered: root.hovered = true
+            onExited: root.hovered = false
+        }
     }
 
     component QuickToggleRow: RowLayout {
