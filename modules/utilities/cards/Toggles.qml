@@ -105,7 +105,7 @@ StyledRect {
 
             StyledText {
                 Layout.fillWidth: true
-                text: IdleInhibitor.enabled ? qsTr("Keep Awake") : qsTr("Keep Awake")
+                text: qsTr("Keep Awake")
                 color: IdleInhibitor.enabled ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurfaceVariant
                 font.pointSize: Appearance.font.size.small
             }
@@ -151,7 +151,7 @@ StyledRect {
 
             radius: Appearance.rounding.small
             color: Colours.palette.m3inverseSurface
-            visible: root.hovered && IdleInhibitor.enabled
+            visible: parent.hovered && IdleInhibitor.enabled
 
             StyledText {
                 id: activeTooltipText
@@ -172,8 +172,8 @@ StyledRect {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: IdleInhibitor.enabled = !IdleInhibitor.enabled
-            onEntered: root.hovered = true
-            onExited: root.hovered = false
+            onEntered: parent.hovered = true
+            onExited: parent.hovered = false
         }
     }
 
