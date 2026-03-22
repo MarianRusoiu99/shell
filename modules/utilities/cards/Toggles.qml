@@ -42,7 +42,7 @@ StyledRect {
         return toggles;
     }
     readonly property int splitIndex: Math.ceil(quickToggles.length / 2)
-    readonly property bool needExtraRow: quickToggles.length > 6
+    readonly property bool needExtraRow: quickToggles.length > 12
 
     Layout.fillWidth: true
     implicitHeight: layout.implicitHeight + Appearance.padding.large * 2
@@ -70,7 +70,6 @@ StyledRect {
             visible: root.needExtraRow
             rowModel: root.needExtraRow ? root.quickToggles.slice(root.splitIndex) : []
         }
-
     }
 
     component QuickToggleRow: RowLayout {

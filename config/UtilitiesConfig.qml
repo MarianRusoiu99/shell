@@ -9,8 +9,8 @@ JsonObject {
     property Vpn vpn: Vpn {}
 
     component Sizes: JsonObject {
-        property int width: 430
-        property int toastWidth: 430
+        property int width: 500
+        property int toastWidth: 500
     }
 
     component Toasts: JsonObject {

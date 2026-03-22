@@ -28,91 +28,99 @@ StyledRect {
         anchors.margins: Appearance.padding.large
         spacing: Appearance.spacing.normal
 
-        StyledRect {
-            Layout.fillWidth: true
-            implicitHeight: modeToggleLayout.implicitHeight + Appearance.padding.small * 2
-            radius: Appearance.rounding.full
-            color: Colours.layer(Colours.palette.m3surfaceContainerHighest, 1)
-
-            RowLayout {
-                id: modeToggleLayout
-
-                anchors.fill: parent
-                anchors.margins: Appearance.padding.small
-                spacing: Appearance.spacing.small
-
-                StyledRect {
-                    Layout.fillWidth: true
-                    implicitHeight: modeVideoLabel.implicitHeight + Appearance.padding.normal * 2
-                    radius: Appearance.rounding.full
-                    color: root.isVideoMode ? Colours.palette.m3secondary : "transparent"
-
-                    RowLayout {
-                        anchors.centerIn: parent
-                        spacing: Appearance.spacing.small
-
-                        MaterialIcon {
-                            text: "videocam"
-                            color: root.isVideoMode ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
-                            font.pointSize: Appearance.font.size.large
-                        }
-
-                        StyledText {
-                            id: modeVideoLabel
-
-                            text: qsTr("Video")
-                            color: root.isVideoMode ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
-                            font.pointSize: Appearance.font.size.normal
-                        }
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: root.props.captureMode = "video"
-                    }
-                }
-
-                StyledRect {
-                    Layout.fillWidth: true
-                    implicitHeight: modeScreenshotLabel.implicitHeight + Appearance.padding.normal * 2
-                    radius: Appearance.rounding.full
-                    color: !root.isVideoMode ? Colours.palette.m3tertiary : "transparent"
-
-                    RowLayout {
-                        anchors.centerIn: parent
-                        spacing: Appearance.spacing.small
-
-                        MaterialIcon {
-                            text: "screenshot"
-                            color: !root.isVideoMode ? Colours.palette.m3onTertiary : Colours.palette.m3onSurfaceVariant
-                            font.pointSize: Appearance.font.size.large
-                        }
-
-                        StyledText {
-                            id: modeScreenshotLabel
-
-                            text: qsTr("Screenshot")
-                            color: !root.isVideoMode ? Colours.palette.m3onTertiary : Colours.palette.m3onSurfaceVariant
-                            font.pointSize: Appearance.font.size.normal
-                        }
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: root.props.captureMode = "screenshot"
-                    }
-                }
-            }
-        }
-
         RowLayout {
+            z: 1
             spacing: Appearance.spacing.normal
 
-            Item {
-                Layout.fillWidth: true
+            StyledRect {
+                id: modeSelector
+
+                Layout.fillWidth: false
+                Layout.fillHeight: false
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 250
+                implicitHeight: modeToggleLayout.implicitHeight + Appearance.padding.small * 2
+                radius: Appearance.rounding.full
+                color: Colours.layer(Colours.palette.m3surfaceContainerHighest, 1)
+
+                RowLayout {
+                    id: modeToggleLayout
+
+                    anchors.fill: parent
+                    anchors.margins: Appearance.padding.small
+                    spacing: Appearance.spacing.small
+
+                    StyledRect {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignVCenter
+                        implicitHeight: modeVideoLabel.implicitHeight + Appearance.padding.normal * 2
+                        radius: Appearance.rounding.full
+                        color: root.isVideoMode ? Colours.palette.m3secondary : "transparent"
+
+                        RowLayout {
+                            anchors.centerIn: parent
+                            spacing: Appearance.spacing.small
+
+                            MaterialIcon {
+                                text: "videocam"
+                                color: root.isVideoMode ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
+                                font.pointSize: Appearance.font.size.large
+                            }
+
+                            StyledText {
+                                id: modeVideoLabel
+
+                                text: qsTr("Video")
+                                color: root.isVideoMode ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
+                                font.pointSize: Appearance.font.size.normal
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: root.props.captureMode = "video"
+                        }
+                    }
+
+                    StyledRect {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignVCenter
+                        implicitHeight: modeScreenshotLabel.implicitHeight + Appearance.padding.normal * 2
+                        radius: Appearance.rounding.full
+                        color: !root.isVideoMode ? Colours.palette.m3tertiary : "transparent"
+
+                        RowLayout {
+                            anchors.centerIn: parent
+                            spacing: Appearance.spacing.small
+
+                            MaterialIcon {
+                                text: "screenshot"
+                                color: !root.isVideoMode ? Colours.palette.m3onTertiary : Colours.palette.m3onSurfaceVariant
+                                font.pointSize: Appearance.font.size.large
+                            }
+
+                            StyledText {
+                                id: modeScreenshotLabel
+
+                                text: qsTr("Screenshot")
+                                color: !root.isVideoMode ? Colours.palette.m3onTertiary : Colours.palette.m3onSurfaceVariant
+                                font.pointSize: Appearance.font.size.normal
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: root.props.captureMode = "screenshot"
+                        }
+                    }
+                }
             }
 
             SplitButton {
+                Layout.fillWidth: true
+                Layout.fillHeight: false
+                Layout.alignment: Qt.AlignVCenter
+                verticalPadding: Appearance.padding.normal
                 visible: root.isVideoMode
                 disabled: Recorder.running
                 active: menuItems.find(m => root.props.recordingMode === m.icon + m.text) ?? menuItems[0]
@@ -147,6 +155,10 @@ StyledRect {
             }
 
             SplitButton {
+                Layout.fillWidth: true
+                Layout.fillHeight: false
+                Layout.alignment: Qt.AlignVCenter
+                verticalPadding: Appearance.padding.normal
                 visible: !root.isVideoMode
                 active: menuItems.find(m => root.props.screenshotMode === m.icon + m.text) ?? menuItems[0]
                 menu.onItemSelected: item => root.props.screenshotMode = item.icon + item.text
@@ -270,9 +282,9 @@ StyledRect {
 
         // Shared history list
         CaptureHistory {
+            z: -1
             props: root.props
             visibilities: root.visibilities
         }
     }
-
 }
