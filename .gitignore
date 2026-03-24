@@ -4,3 +4,25 @@
 build/
 .cache/
 logs
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+dist/
+
+# Environment
+.env
+
+# Generated
+routeTree.gen.ts
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
